@@ -1,0 +1,19 @@
+<launch>
+
+    <param name="robot_description" command="xacro '$(find soar_description)'/xacro/robot.xacro" />
+
+    <node pkg="giskardpy_ros" type="soar_standalone.py" name="giskard" output="screen"/>
+
+    <node pkg="giskardpy_ros" type="interactive_marker.py" name="giskard_interactive_marker" output="screen">
+        <rosparam param="enable_self_collision">False</rosparam>
+        <rosparam param="interactive_marker_chains">
+          - [odom, link_tcp_extension]
+          - [odom, base_footprint]
+          - [odom, head_tilt_link]
+        </rosparam>
+    </node>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find giskardpy_ros)/launch/rviz_config/standalone.rviz" />
+
+</launch>
+
