@@ -1,5 +1,8 @@
 import rospy
 from geometry_msgs.msg import PoseStamped
+from giskardpy.goals.joint_goals import JointPositionList
+from giskardpy.motion_graph.monitors.joint_monitors import JointGoalReached
+from giskardpy_ros.python_interface.python_interface import GiskardWrapper
 
 
 # %% Define goals for later
@@ -44,7 +47,7 @@ alternator = giskard_wrapper.monitors.add_alternator(mod=2)
 sleep1 = giskard_wrapper.monitors.add_sleep(1, name='sleep1')
 # This prints a message and then turns True.
 # With start_condition you can define which monitors need to be True in order for this one to become active
-print1 = giskard_wrapper.monitors.add_print(message=f'{sleep1} done', start_condition=sleep1)
+print1 = giskard_wrapper.monitors.add_print(name='print1', message=f'{sleep1} done', start_condition=sleep1)
 # You can also write logical expressions using "and", "or" and "not" to combine multiple monitors
 sleep2 = giskard_wrapper.monitors.add_sleep(1.5, name='sleep2', start_condition=f'{print1} or not {sleep1}')
 
@@ -72,7 +75,7 @@ giskard_wrapper.motion_goals.add_joint_position(goal_state=right_arm_goal,
                                                 end_condition=right_monitor)
 # You can use add_motion_goal to add any motion goal implemented in giskardpy_ros.goals.
 # All remaining parameters are forwarded to the __init__ function of that class.
-giskard_wrapper.motion_goals.add_motion_goal(motion_goal_class=JointPositionList.__name__,
+giskard_wrapper.motion_goals.add_motion_goal(class_name=JointPositionList.__name__,
                                              goal_state=left_arm_goal,
                                              name='left pose',
                                              end_condition=left_monitor)
