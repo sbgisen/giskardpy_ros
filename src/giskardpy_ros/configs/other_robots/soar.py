@@ -126,7 +126,7 @@ class SOARVelocityIAIInterface(RobotInterfaceConfig):
     def __init__(self,
                  map_name: str = 'map',
                  localization_joint_name: str = 'localization',
-                 odom_link_name: str = 'odom_combined',
+                 odom_link_name: str = 'odom',
                  drive_joint_name: str = 'brumbrum'):
         self.map_name = map_name
         self.localization_joint_name = localization_joint_name
@@ -140,10 +140,9 @@ class SOARVelocityIAIInterface(RobotInterfaceConfig):
         self.sync_joint_state_topic('/soar/joint_states')
         self.sync_odometry_topic('/soar/odom', self.drive_joint_name,
                                  sync_in_control_loop=False)
-        self.add_joint_velocity_group_controller(namespace='soar/torso_trajectory_position_controller')
-        self.add_joint_velocity_group_controller(namespace='soar/arm_trajectory_position_controller')
+        self.add_joint_velocity_group_controller(namespace='soar/joint_group_velocity_controller')
 
-        self.add_base_cmd_velocity(cmd_vel_topic='/base_controller/command',
+        self.add_base_cmd_velocity(cmd_vel_topic='/soar/diff_drive_controller/cmd_vel',
                                    joint_name=self.drive_joint_name)
 
 

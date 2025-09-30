@@ -1,6 +1,7 @@
 <launch>
-
-  <node pkg="giskardpy_ros" type="soar.py" name="giskard" output="screen"/>
+  <arg name="vel" default="false"/>
+  <node if="$(arg vel)" pkg="giskardpy_ros" type="soar_vel.py" name="giskard" output="screen"/>
+  <node unless="$(arg vel)" pkg="giskardpy_ros" type="soar.py" name="giskard" output="screen"/>
 
   <!-- <node pkg="giskardpy_ros" type="joystick_e_stop.py" name="giskard_e_stop" output="screen">
     <rosparam param="button_ids">
